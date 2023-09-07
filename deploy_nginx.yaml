@@ -4,6 +4,7 @@ metadata:
   name: nginx-deployment
   labels:
     app: nginx
+  namespace: generative-ai
 spec:
   selector:
     matchLabels:
