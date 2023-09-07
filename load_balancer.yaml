@@ -1,0 +1,28 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    alb.ingress.kubernetes.io/group.order: "10"
+    alb.ingress.kubernetes.io/healthcheck-interval-seconds: "30" # in seconds
+    alb.ingress.kubernetes.io/healthcheck-path: /healht
+    alb.ingress.kubernetes.io/healty-threshold-count: "1"
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTPS": 443}]'
+    alb.ingress.kubernetes.io/unhealthy-threshold-count: "3"
+  name: nginx-lb
+  namespace: generative-ai
+spec:
+  rules:
+    - host: nginx.example.com
+      http:
+        paths:
+          - backend:
+              service:
+                name: nginx
+                port:
+                  number: 80
+            path: /
+            pathType: Prefix
+  tls:
+    - hosts:
+        - "*.example.com"
+      secretName: example-tls
